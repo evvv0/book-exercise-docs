@@ -9,9 +9,11 @@ Be sure to implement all the PIOT-GDA-* issues (requirements) listed.
 NOTE: Include two full paragraphs describing your implementation approach by answering the questions listed below.
 
 What does your implementation do? 
+
 La implementación gestiona diferentes tipos de datos dentro de un sistema IoT, como información de sensores, actuadores, rendimiento del sistema y estado general. Las clases como ActuatorData, SensorData, SystemPerformanceData y SystemStateData están basadas en una estructura común (BaseIotData), lo que facilita su interacción. Además, se actualiza SystemPerformanceManager para almacenar datos de rendimiento como CPU, memoria y disco. DataUtil convierte estas clases a JSON y viceversa. DeviceDataManager se encarga de la inicialización, inicio y detención de servicios clave en el dispositivo, como la gestión del rendimiento del sistema y servicios de conexión. Finalmente, se integra DeviceDataManager en la aplicación principal GatewayDeviceApp.
 
 How does your implementation work?
+
 La implementación está organizada para manejar de manera eficiente los datos de un sistema IoT. Primero, se definen varias clases que representan los diferentes tipos de datos del sistema, todas ellas heredando de una clase base común llamada BaseIotData. Esta estructura permite que los objetos de estas clases sean tratados de manera uniforme, lo que facilita su manejo y manipulación dentro del sistema. Para permitir la comunicación entre el CDA y el GDA, se implementan métodos en la clase DataUtil que convierten estas clases a formato JSON y viceversa, utilizando la biblioteca Gson. Esto facilita la transmisión de los datos entre el dispositivo IoT y otros componentes, como servidores en la nube, de manera sencilla y estándar. 
 
 En cuanto al rendimiento del sistema, la implementación cuenta con SystemPerformanceManager que se se actualiza periódicamente y es controlado desde la clase DeviceDataManager, que es la responsable de manejar la inicialización y gestión de servicios clave en el dispositivo IoT.
