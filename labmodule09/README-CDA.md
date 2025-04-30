@@ -9,10 +9,23 @@ Be sure to implement all the PIOT-CDA-* issues (requirements) listed.
 NOTE: Include two full paragraphs describing your implementation approach by answering the questions listed below.
 
 What does your implementation do? 
-Mi implementación permite que un cliente CoAP se comunique de manera efectiva con un servidor CoAP dentro de un entorno de Internet de las Cosas (IoT), facilitando el intercambio de datos estructurados como métricas de sensores y comandos de actuadores. Esta funcionalidad incluye la capacidad de enviar solicitudes GET, tanto confirmables como no confirmables, así como también realizar solicitudes de descubrimiento de recursos disponibles en el servidor. A través de esta implementación, el cliente puede emitir peticiones hacia rutas específicas del servidor y procesar las respuestas recibidas para su posterior uso en la aplicación. Esto permite integrar dispositivos IoT que necesiten obtener información actualizada o identificar qué servicios ofrece un servidor en un momento dado.
+
+Mi implementación consiste en un cliente CoAP llamado CoapClientConnector, que utiliza la librería aiocoap para facilitar la comunicación con servidores CoAP. Este cliente soporta solicitudes GET, POST, PUT, DELETE y OBSERVE, permitiendo la interacción con sensores y actuadores. La clase implementa la interfaz IRequestResponseClient y se integra con el módulo DeviceDataManager, permitiendo enviar y recibir datos de forma eficiente.
+
+El cliente soporta solicitudes GET tanto confirmables como no confirmables, gestionando respuestas en formato JSON y convirtiéndolas en objetos de tipo ActuatorData. También incluye descubrimiento de recursos a través de solicitudes GET al path .well-known/core. Además, se implementa soporte para solicitudes PUT y POST, permitiendo modificar recursos y enviar datos al servidor. También cuenta con soporte para solicitudes DELETE, lo que permite eliminar recursos remotos.
+
+Una característica clave de la implementación es el soporte para solicitudes OBSERVE, que permite al cliente suscribirse a un recurso y recibir actualizaciones automáticas cuando el recurso cambia, sin necesidad de solicitudes repetidas. Los métodos startObserver() y stopObserver() permiten gestionar la observación de recursos.
+
 
 How does your implementation work?
-La lógica se basa en el uso de la biblioteca aiocoap, que permite el manejo asincrónico del protocolo CoAP. La clase define un método que construye la ruta del recurso solicitado a partir de parámetros dados, y luego inicia una solicitud GET utilizando una corrutina que se ejecuta en el bucle de eventos de Python. Esta solicitud es enviada al servidor como un mensaje CoAP, el cual puede ser de tipo confirmable (CON) o no confirmable (NON) dependiendo de la configuración. Una vez enviada, la implementación espera la respuesta del servidor y, al recibirla, procesa su contenido. Si el recurso recibido corresponde a un comando de actuador, se decodifica y se transforma en un objeto específico que luego se entrega a un componente encargado de manejar ese tipo de datos. En el caso de otras respuestas, se registran e interpretan de forma genérica. Además, se implementó una función para realizar una solicitud GET especial hacia la ruta .well-known/core, lo que permite obtener una lista de los recursos disponibles en el servidor. Todo el flujo de comunicación se apoya en el registro de eventos mediante logs para facilitar el seguimiento y la depuración del sistema.
+
+Mi implementación funciona creando un cliente CoAP asíncrono utilizando la biblioteca aiocoap. La clase CoapClientConnector se inicializa cargando los parámetros de configuración (como host y puerto) desde un archivo, luego crea un cliente CoAP con un contexto asíncrono manejado por asyncio. Para interactuar con los recursos del servidor, la clase implementa los métodos de la interfaz IRequestResponseClient, lo que permite enviar solicitudes como GET, PUT, POST y DELETE.
+
+Cada tipo de solicitud se maneja a través de métodos específicos que construyen y envían los mensajes CoAP, esperando las respuestas de manera asíncrona. Al recibir las respuestas, se procesan a través de métodos de callback para validar y registrar los datos. Además, se ha implementado una funcionalidad de descubrimiento de recursos que permite al cliente identificar dinámicamente los recursos disponibles en el servidor CoAP mediante una solicitud GET al path especial .well-known/core.
+
+Además, se incorporaron métodos para observar recursos de manera continua utilizando los métodos startObserver() y stopObserver(), lo que permite al cliente suscribirse a un recurso y recibir actualizaciones automáticas cada vez que el recurso cambia. Esta observación se maneja de forma asíncrona, utilizando un rastreador interno para mapear los recursos observados y sus manejadores de respuesta.
+
+
 
 
 ### Code Repository and Branch
