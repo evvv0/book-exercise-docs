@@ -60,6 +60,7 @@ test case below (e.g. SensorSimAdapterManagerTest, DeviceDataManagerTest, etc.)
 - MqttClientPerformanceTest
 - CoapClientPerformanceTest
 - MqttClientConnectorTest
+- DeviceDataManagerSimpleCdaActuationTest
 
 # GDA CoAP Client Performance Test Results
 INFO: Testing PUT - CON May 21, 2025 1:30:32 PM programmingtheiot.part03.integration.connection.CoapClientPerformanceTest execTestPut INFO: PUT message - useCON = true [10000]: 18563218 ms May 21, 2025 1:30:32 PM programmingtheiot.part03.integration.connection.CoapClientPerformanceTest testPutRequestNon INFO: Testing PUT - NON May 21, 2025 1:30:32 PM programmingtheiot.part03.integration.connection.CoapClientPerformanceTest execTestPut INFO: PUT message - useCON = false [10000]: 242186 ms May 21, 2025 1:30:32 PM programmingtheiot.part03.integration.connection.CoapClientPerformanceTest testPostRequestCon INFO: Testing POST - CON May 21, 2025 1:30:32 PM programmingtheiot.part03.integration.connection.CoapClientPerformanceTest execTestPost INFO: POST message - useCON = true [10000]: 274792 ms May 21, 2025 1:30:32 PM programmingtheiot.part03.integration.connection.CoapClientPerformanceTest testPostRequestNon INFO: Testing POST - NON May 21, 2025 1:30:32 PM programmingtheiot.part03.integration.connection.CoapClientPerformanceTest execTestPost INFO: POST message - useCON = false [10000]: 724838 ms
